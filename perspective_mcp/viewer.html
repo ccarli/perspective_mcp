@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Perspective</title>
+  <link rel="stylesheet" crossorigin="anonymous"
+        href="https://cdn.jsdelivr.net/npm/@perspective-dev/viewer@$version/dist/css/themes.css">
+  <style>
+    html, body { margin: 0; height: 100%; }
+    perspective-viewer { position: absolute; inset: 0; }
+  </style>
+</head>
+<body>
+  <perspective-viewer></perspective-viewer>
+  <script id="spec" type="application/json">$spec</script>
+  <script type="module">
+    import "https://cdn.jsdelivr.net/npm/@perspective-dev/viewer@$version/dist/cdn/perspective-viewer.js";
+    import "https://cdn.jsdelivr.net/npm/@perspective-dev/viewer-datagrid@$version/dist/cdn/perspective-viewer-datagrid.js";
+    import "https://cdn.jsdelivr.net/npm/@perspective-dev/viewer-charts@$version/dist/cdn/perspective-viewer-charts.js";
+    import perspective from "https://cdn.jsdelivr.net/npm/@perspective-dev/client@$version/dist/cdn/perspective.js";
+
+    const { websocket, panels, layout } = JSON.parse(document.getElementById("spec").textContent);
+    const theme = new URLSearchParams(location.search).get("theme") ?? undefined;
+    const themed = Object.fromEntries(Object.entries(panels).map(([name, panel]) => [name, { ...panel, theme }]));
+
+    const viewer = document.querySelector("perspective-viewer");
+    await viewer.load(perspective.websocket(websocket));
+    if (layout) {
+      await viewer.restoreWorkspace({ panels: themed, layout });
+    } else {
+      await viewer.restore(Object.values(themed)[0]);
+    }
+  </script>
+</body>
+</html>
