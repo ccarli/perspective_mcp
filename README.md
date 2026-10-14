@@ -4,6 +4,9 @@ A [FastMCP](https://gofastmcp.com) server that fetches Yahoo Finance data and an
 [Perspective](https://perspective-dev.github.io/guide/index.html) charts, tables and workspaces,
 plus a Streamlit chat demo driven by a Qwen model.
 
+<img width="1902" height="799" alt="image" src="https://github.com/user-attachments/assets/985abda5-6fef-4be9-93a8-2bcd9f3617c3" />
+
+
 ```
 Qwen ──tool call──▶ /mcp  show_prices(["^IXIC"], "ytd")
                       │  yfinance ─▶ pandas ─▶ Perspective table (in-process server)
